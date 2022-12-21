@@ -4,23 +4,7 @@ clock=pygame.time.Clock()
 WINDOW_HEIGHT=700
 WINDOW_WIDTH=1200
 display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-class Button():
-	def __init__(self, x, y, image, scale):
-		width = image.get_width()
-		height = image.get_height()
-		self.image = pygame.transform.scale(image, (int(width * scale), int(height * scale)))
-		self.rect = self.image.get_rect()
-		self.rect.center = (x, y)
-		self.pos_unhover = (x, y)
-		self.pos_hover = (x, y - 3)
-		
-	def draw(self, surface):
-		surface.blit(self.image, self.rect)
-		pos = pygame.mouse.get_pos()
-		if self.rect.collidepoint(pos):
-			self.rect.center = self.pos_hover
-		else:
-			self.rect.center = self.pos_unhover
+
 class Horse(pygame.sprite.Sprite):
     def __init__(self,pos_x, pox_y, type):
         super().__init__()
@@ -51,6 +35,7 @@ class GameHorse():
         image = pygame.image.load("D:/NII/asset/img/backround.png").convert()
         scale = int(image.get_width() / image.get_height())
         self.back_ground_image = pygame.transform.scale(image,(scale * 1200, 700))
+        
     def main(self):
         running =True
         while running:
@@ -61,8 +46,10 @@ class GameHorse():
             clock.tick(FPS)
     
     def show_menu(self):
-        start_button = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 3,
-		                      pygame.image.load("D:/NII/asset/button/start.png"), 0.1)
+        img_button=pygame.image.load("D:/NII/asset/button/start.png")
+        scale1 = int(img_button.get_width() / img_button.get_height())
+        self.start_button = pygame.transform.scale(img_button,(scale1 * 100, 100))
+        
         main_menu_run=True
         while main_menu_run:
             self.show_bg()
@@ -72,11 +59,13 @@ class GameHorse():
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     pos = pygame.mouse.get_pos()
-                    if start_button.rect.collidepoint(pos):
+                    if self.start_button.rect.collidepoint(pos):
                         self.start_new_round()
-            start_button.draw(display_surface)
-            pygame.display.update()
-            clock.tick(FPS)
+            
+                self.back_ground_image.blit(self.start_button, (550, 200))
+                
+                pygame.display.update()
+                clock.tick(FPS)
     def show_bg(self):
         display_surface.blit(self.back_ground_image, (0, 0))
         pygame.display.flip()
