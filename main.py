@@ -51,7 +51,7 @@ class Horse(pygame.sprite.Sprite):
 		for i in range(7):
 			image = pygame.image.load(f"./asset/character/horse1/{self.type}/{i + 1}.png")
 			scale = image.get_width() / image.get_height()
-			image = pygame.transform.scale(image, (scale * 100, 100))
+			image = pygame.transform.scale(image, (scale * 250, 250))
 			self.sprites.append(image)
 		
 		self.current_sprite = 0
@@ -62,9 +62,11 @@ class Horse(pygame.sprite.Sprite):
 	
 	def update(self):
 		if self.rect.right <= WINDOW_WIDTH:
-
-			self.positonx += self.speed
-			self.rect.x = int(self.positonx)
+			# if  self.positonx>600:
+				# self.positonx += random.randint(-50,50)/10
+			# else :
+			self.positonx += random.randint(2,50)/10
+			self.rect.x = (self.positonx)
 			self.animate(self.animate_fps)
 		 
 	def animate(self, fps):
@@ -80,7 +82,7 @@ class GameHorse():
 		self.map_x=0
 		self.scroll = 0
 		self.direction_scroll = 1
-		image = pygame.image.load("./asset/img/backround.png").convert()
+		image = pygame.image.load("./asset/img/background1.png").convert()
 		scale = int(image.get_width() / image.get_height())
 		self.back_ground_image = pygame.transform.scale(image, (scale * 1200, 700))
 	
@@ -129,7 +131,7 @@ class GameHorse():
 		moving_sprite = pygame.sprite.Group()
 		for i in range(5):
 			ran=random.randint(10,20)/20
-			horse = Horse(0,320+ 80 * i , i + 1,ran)
+			horse = Horse(0,380+ 80 * i , i + 1,ran)
 			moving_sprite.add(horse)
 		racing = True
 		fps = 1
